@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 
+#include "main.h"
 #include "linear.h"
 #include "binary.h"
 
@@ -8,8 +9,7 @@ int main(int argc, char **argv) // argc = # of arguments, argv = pointer to argu
 {
     int num_floors = 100;
     int breaking_point = 0;
-    int pineapples = 2;
-    int cycles = 0;
+    int num_pineapples = 2;
 
     /*
     printf("how many floors?\n");
@@ -30,24 +30,25 @@ int main(int argc, char **argv) // argc = # of arguments, argv = pointer to argu
     */
 
     // linear search
-    std::pair<int, int> p;
-    cycles = 0;
-    printf("linear\t");
-    for(int i = 1; i < num_floors; i++) // identify how many cycles to find breaking point, starting at 1st floor
-    {
-        p = linear(num_floors, i, pineapples);
-        cycles += p.second;
-    }
-    printf("remaining_pineapples: %d\taverage_cycles: %d\n", p.first, cycles/num_floors);
+    printf("linear search\t");
+    search(num_floors, breaking_point, num_pineapples, linear);
 
     // binary search
-    cycles = 0;
-    printf("binary\t");
-    for(int i = 1; i < num_floors; i++) // identify how many cycles to find breaking point, starting at 1st floor
-    {
-        cycles += binary(num_floors, i, pineapples);
-    }
-    printf("average_cycles: %d\n", cycles/num_floors);
+    printf("binary search\t");
+    search(num_floors, breaking_point, num_pineapples, binary);
 
     return 0;
+}
+
+void search (int num_floors, int breaking_point, int num_pineapples, std::pair<int, int>(*f)(int, int, int))
+{
+    std::pair<int, int> p = std::make_pair(0,0);
+    int num_cycles = 0;
+    
+    for(int i = 1; i < num_floors; i++) // identify how many cycles to find breaking point, starting at 1st floor
+    {
+        p = (*f)(num_floors, i, num_pineapples);
+        num_cycles += p.second;
+    }
+    printf("remaining_pineapples: %d\taverage_cycles: %d\n", p.first, num_cycles/num_floors);
 }

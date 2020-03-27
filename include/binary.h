@@ -4,6 +4,6 @@
 #include <stdio.h>
 #include <iostream>
 
-int binary(int num_floors, int breaking_point, int pineapples);
+std::pair<int, int> binary(int num_floors, int breaking_point, int num_pineapples);
 
 #endif /* INCLUDE_BINARY_H_ */

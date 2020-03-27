@@ -1,0 +1,1 @@
+void search (int num_floors, int breaking_point, int num_pineapples, std::pair<int, int>(*f)(int, int, int));
