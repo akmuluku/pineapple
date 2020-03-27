@@ -1,17 +1,18 @@
 BUILD_DIR = build/
 INCLUDES = -Iinclude
-DEPS = linear_search.h
 
-OBJS = main.o linear_search.o
-OBJ_LIST = $(addprefix $(BUILD), $(OBJS))
+BINS = pineapple
+OBJS = main.o linear_search.o #(list all output objects needed)
+OBJ_LIST = $(addprefix $(BUILD_DIR), $(OBJS)) #(create a list of objects prefixed with output location, i.e. build/main.o)
+LIST = $(addprefix $(BUILD_DIR), $(BINS)) #(create a list of all binaries prefixed with output location, i.e. build/pineapple)
 
-$(BUILD)%.o: src/%.cpp
-	$(CXX) -c -o $@ $< $(CFLAGS)
+$(BUILD_DIR)%.o: src/%.cpp
+	$(CXX) -c -o $@ $< $(INCLUDES)
 
-$(BUILD)pineapple: $(OBJ_LIST)
-	$(CXX) -o $@ $^ $(INCLUDES)
+$(LIST): $(OBJ_LIST) #(rules to create list of binaries)
+	$(CXX) -o $@ $^
 
-all: setup
+all: setup $(LIST)
 
 .PHONY: setup
 setup:
