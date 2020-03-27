@@ -1,12 +1,17 @@
 #include <stdio.h>
 #include <iostream>
 
-#include "linear_search.h"
+#include "linear.h"
+#include "binary.h"
 
 int main(int argc, char **argv) // argc = # of arguments, argv = pointer to arguments as char**
 {
-    int num_floors, breaking_point, pineapples = 0;
+    int num_floors = 100;
+    int breaking_point = 0;
+    int pineapples = 2;
+    int cycles = 0;
 
+    /*
     printf("how many floors?\n");
     std::cin >> num_floors;
 
@@ -22,9 +27,27 @@ int main(int argc, char **argv) // argc = # of arguments, argv = pointer to argu
     std::cin >> pineapples;
 
     printf("parameters: num_floors = %d, breaking_point = %d, pineapples = %d\n", num_floors, breaking_point, pineapples);
+    */
 
     // linear search
-    linear_search(num_floors, breaking_point, pineapples);
+    std::pair<int, int> p;
+    cycles = 0;
+    printf("linear\t");
+    for(int i = 1; i < num_floors; i++) // identify how many cycles to find breaking point, starting at 1st floor
+    {
+        p = linear(num_floors, i, pineapples);
+        cycles += p.second;
+    }
+    printf("remaining_pineapples: %d\taverage_cycles: %d\n", p.first, cycles/num_floors);
+
+    // binary search
+    cycles = 0;
+    printf("binary\t");
+    for(int i = 1; i < num_floors; i++) // identify how many cycles to find breaking point, starting at 1st floor
+    {
+        cycles += binary(num_floors, i, pineapples);
+    }
+    printf("average_cycles: %d\n", cycles/num_floors);
 
     return 0;
 }
