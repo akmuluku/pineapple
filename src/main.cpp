@@ -31,23 +31,23 @@ int main(int argc, char **argv) // argc = # of arguments, argv = pointer to argu
 
     // linear search
     printf("linear search\t");
-    search(num_floors, breaking_point, num_pineapples, linear);
+    search(linear, num_floors, breaking_point, num_pineapples);
 
     // binary search
     printf("binary search\t");
-    search(num_floors, breaking_point, num_pineapples, binary);
+    search(binary, num_floors, breaking_point, num_pineapples);
 
     return 0;
 }
 
-void search (int num_floors, int breaking_point, int num_pineapples, std::pair<int, int>(*f)(int, int, int))
+void search (std::pair<int, int>(*search_type)(int, int, int), int num_floors, int breaking_point, int num_pineapples)
 {
     std::pair<int, int> p = std::make_pair(0,0);
     int num_cycles = 0;
     
     for(int i = 1; i < num_floors; i++) // identify how many cycles to find breaking point, starting at 1st floor
     {
-        p = (*f)(num_floors, i, num_pineapples);
+        p = (*search_type)(num_floors, i, num_pineapples);
         num_cycles += p.second;
     }
     printf("remaining_pineapples: %d\taverage_cycles: %d\n", p.first, num_cycles/num_floors);
