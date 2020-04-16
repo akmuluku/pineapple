@@ -8,8 +8,8 @@
 int main(int argc, char **argv) // argc = # of arguments, argv = pointer to arguments as char**
 {
     int num_floors = 100;
-    int breaking_point = 0;
     int num_pineapples = 2;
+    int breaking_point = 0;
 
     /*
     printf("how many floors?\n");
@@ -31,24 +31,25 @@ int main(int argc, char **argv) // argc = # of arguments, argv = pointer to argu
 
     // linear search
     printf("linear search\t");
-    search(linear, num_floors, breaking_point, num_pineapples);
+    search(linear_search, num_floors, num_pineapples, breaking_point);
 
     // binary search
-    printf("binary search\t");
-    search(binary, num_floors, breaking_point, num_pineapples);
+    printf("binary combo search\t");
+    search(binary_combo_search, num_floors, num_pineapples, breaking_point);
 
     return 0;
 }
 
-void search (std::pair<int, int>(*search_type)(int, int, int), int num_floors, int breaking_point, int num_pineapples)
+// function signatures for linear_search(), binary_combo_search(), etc. are the same, can be passed as pointers
+void search(std::pair<int, int>(*search_type)(int, int, int), int num_floors, int num_pineapples, int breaking_point)
 {
     std::pair<int, int> p = std::make_pair(0,0);
-    int num_cycles = 0;
+    int aggregate_cycles = 0;
     
     for(int i = 1; i < num_floors; i++) // identify how many cycles to find breaking point, starting at 1st floor
     {
-        p = (*search_type)(num_floors, i, num_pineapples);
-        num_cycles += p.second;
+        p = (*search_type)(num_floors, num_pineapples, i);
+        aggregate_cycles += p.first; // aggregate all cycle counts for averaging
     }
-    printf("remaining_pineapples: %d\taverage_cycles: %d\n", p.first, num_cycles/num_floors);
+    printf("average_cycles: %d\tremaining_pineapples: %d\n", aggregate_cycles/num_floors, p.second);
 }

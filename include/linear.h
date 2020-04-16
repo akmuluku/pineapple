@@ -5,6 +5,6 @@
 #include <iostream>
 #include <utility>
 
-std::pair<int, int> linear(int num_floors, int breaking_point, int pineapples);
+std::pair<int, int> linear_search(int num_floors, int num_pineapples, int breaking_point);
 
 #endif /* INCLUDE_LINEAR_H_ */
